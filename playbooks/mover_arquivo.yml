@@ -1,0 +1,26 @@
+---
+- name: Copiar e mover script para /opt/scripts
+  hosts: cluster_servers
+  tasks:
+    - name: Criar diretório /opt/scripts se não existir
+      ansible.builtin.file:
+        path: /opt/scripts
+        state: directory
+        mode: '0755'
+
+    - name: Copiar arquivo local para os servidores
+      ansible.builtin.copy:
+        src: limpvar.sh  # Arquivo que está na pasta files/
+        dest: /opt/scripts/  # Destino nos servidores
+        mode: '0755'  # Definir permissões
+      become: yes
+
+    - name: Garantir que o arquivo foi movido corretamente
+      ansible.builtin.stat:
+        path: /opt/scripts/limpvar.sh
+      register: result
+
+    - name: Verificar o status
+      ansible.builtin.debug:
+        msg: "Arquivo copiado com sucesso: {{ result.stat.exists }}"
+

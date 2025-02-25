@@ -1,0 +1,42 @@
+# Playbook para copiar um diretório para um destino sem remover arquivos existentes
+#
+# COMO USAR:
+# 1. Especifique o diretório de origem (source_dir) e o destino (destination_dir).
+# 2. Execute o comando abaixo:
+#    ansible-playbook mover.yml --extra-vars "source_dir=ORIGEM destination_dir=DESTINO"
+#
+# O QUE ESSE PLAYBOOK FAZ?
+# - Copia arquivos de 'files/source_dir' para 'destination_dir'.
+# - Se 'destination_dir' já existir, os arquivos são adicionados sem remover os existentes.
+# - Usa 'synchronize' (rsync) para ser mais rápido e eficiente que o módulo 'copy'.
+#
+# EXEMPLOS:
+# - Copiar 'files/scripts' para '/opt/scripts' sem remover arquivos existentes:
+#   ansible-playbook mover.yml --extra-vars "source_dir=files/scripts destination_dir=/opt/scripts"
+#
+# - Copiar 'files/configs' para '/etc/app_configs':
+#   ansible-playbook mover.yml --extra-vars "source_dir=files/configs destination_dir=/etc/app_configs"
+
+- name: Copiar pasta para o destino sem remover arquivos existentes
+  hosts: cluster_servers
+  vars:
+    source_dir: "{{ source_dir }}"        # Diretório fonte (dentro de 'files/')
+    destination_dir: "{{ destination_dir }}"  # Diretório de destino
+
+  tasks:
+    - name: Criar diretório de destino se não existir
+      ansible.builtin.file:
+        path: "{{ destination_dir }}"
+        state: directory
+        mode: '0755'
+      become: yes
+
+    - name: Copiar arquivos mantendo os existentes
+      ansible.builtin.synchronize:
+        src: "{{ source_dir }}/"  # Origem com barra no final para copiar apenas o conteúdo
+        dest: "{{ destination_dir }}/"  # Destino com barra no final para evitar cópia duplicada
+        recursive: yes  # Copia recursivamente os subdiretórios e arquivos
+        archive: yes  # Mantém permissões, timestamps e links simbólicos
+        perms: yes  # Mantém permissões dos arquivos
+      become: yes
+

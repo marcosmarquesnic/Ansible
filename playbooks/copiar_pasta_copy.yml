@@ -1,0 +1,44 @@
+---
+# Este playbook move um diretório para um destino especificado.
+# 
+# COMO USAR:
+# 1. Especifique o diretório de origem (source_dir) e o destino (destination_dir).
+# 2. Execute o comando abaixo:
+#    ansible-playbook mover.yml --extra-vars "source_dir=ORIGEM destination_dir=DESTINO"
+# 
+# AVISO IMPORTANTE:
+# O diretório de origem (source_dir) deve estar na pasta 'files' do Ansible.
+# Ou seja, a pasta desejada precisa estar dentro de 'files/' no seu projeto.
+#
+# EXEMPLOS:
+# - Mover a pasta 'files/minha_pasta' para '/tmp/minha_pasta':
+#   ansible-playbook mover.yml --extra-vars "source_dir=files/minha_pasta destination_dir=/tmp/minha_pasta"
+#
+# - Mover a pasta 'files/meu_diretorio' para '/opt/meu_diretorio':
+#   ansible-playbook mover.yml --extra-vars "source_dir=files/meu_diretorio destination_dir=/opt/meu_diretorio"
+
+- name: Mover pasta desejada para o destino
+  hosts: cluster_servers
+  vars:
+    source_dir: "{{ source_dir }}"       # Diretório fonte
+    destination_dir: "{{ destination_dir }}"  # Diretório de destino
+
+  tasks:
+    - name: Criar diretório de destino se não existir
+      ansible.builtin.file:
+        path: "{{ destination_dir }}"
+        state: directory
+        mode: '0755'
+      become: yes
+
+    - name: Copiar diretório para o destino
+      ansible.builtin.copy:
+        src: "{{ source_dir }}"
+        dest: "{{ destination_dir }}"
+        mode: '0755'
+      become: yes
+
+    - name: Confirmar sucesso
+      ansible.builtin.debug:
+        msg: "Diretório {{ source_dir }} movido para {{ destination_dir }}"
+
