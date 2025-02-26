@@ -259,8 +259,7 @@ servidor1           : ok=3  changed=2  unreachable=0  failed=0  skipped=0  rescu
 E com isso o servidor1 foi atualizado, para atualizar em mais servidores basta alterar a opção --limit
 
 
-<<<<<<< HEAD
-Lembrando que isso só foi possivel porque foi feita a configuração no ansible.cfg, nos arquivos hosts, a playbook é onde a magica acontece, porém tem que estar configurado dessa forma para executar apenas a playbook sem detalhes adicionais..
-=======
-Lembrando que isso só foi possivel porque foi feita a configuração no ansible.cfg, nos arquivos hosts, a playbook é onde a magica acontece, porém tem que estar configurado dessa forma para executar apenas a playbook sem detalhes adicionais..
->>>>>>> 5b0c29e (Inicializando projeto Ansible com configuração e playbooks)
+
+
+Lembrando que isso só foi possivel porque foi feita a configuração no ansible.cfg, nos arquivos hosts, a playbook é onde a magica acontece, porém tem que estar configurado dessa forma para executar apenas a playbook sem detalhes adicionais...
+
