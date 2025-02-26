@@ -1,4 +1,4 @@
-Ansible - Intalação/Configuração/Utilização.
+# Ansible - Intalação/Configuração/Utilização.
 
 O Ansible é uma ferramenta poderosa que permite às equipes de TI automatizar tarefas repetitivas e complexas, como configuração de servidores, implantação de aplicações, cópia de arquivos para diversos servidores e gerenciamento de redes. Ele funciona com varias playbooks que define o estado desejado da infraestrutura e as ações necessárias para atingi-lo.
 
@@ -23,8 +23,7 @@ $ cat update.yml
 
 Após essa configuração basta rodar ansible-playbook playbooks/update.yml
 
-Porém é necessário configurar no minimo os hosts
-Com essa playbook eu consigo atualizar quantos servidores eu quiser em apenas um comando. Da para utilizar o ansible de várias formas, porém vou mostrar a maneira que utilizo no servidores do NIC.
+Porém é necessário configurar no minimo os hosts com essa playbook eu consigo atualizar quantos servidores eu quiser em apenas um comando. Da para utilizar o ansible de várias formas, porém vou mostrar a maneira que utilizo no servidores do NIC.
 
 
 ## 1 - Instalação Ansible
@@ -33,7 +32,6 @@ Com essa playbook eu consigo atualizar quantos servidores eu quiser em apenas um
 $ sudo apt update && sudo apt upgrade -y
 $ sudo apt install -y ansible
 ```
-
 
 
 ## 2 - Configuração Ansible
@@ -166,9 +164,6 @@ Ex, uma playbook configurada para copiar uma pasta para mais de um servidor.
       become: yes
 ```
 
-
-
-
 Resumidamente ao executar a playbook com o comando abaixo:
 
 
@@ -202,20 +197,24 @@ Explicando o comando, ele vai executar um apt update e o próximo vai forçar a 
 
 ## 4 - Exemplo de execução das playbooks.
 
+O comando com o --check acima roda a playbook porém sem executar, apenas um check de verificação para ver se tudo vai ocorrer sem erros.
 ```
 $ ansible-playbook playbooks/update.yml --check
+```
 
+O comando com o --limit limita a execução para apenas um host, lembrando que para isso o servidor/host tem que estar setado no arquivo de hosts do ansible.
+
+```
 $ ansible-playbook playbooks/update.yml --check --limit servidor1
+```
+
+Se caso deseja executar em todos os servidores/hosts do arquivo hosts do ansible, é só tirar o comando com o --limit.
+```
+$ ansible-playbook playbooks/update.yml
 ```
 
 
 Segue abaixo o resultado do comando 
-```
-"$ ansible-playbook playbooks/update.yml --check --limit servidor1"
-```
-
-
-
 
 ```
 $ ansible-playbook playbooks/update.yml --check --limit servidor1
@@ -256,10 +255,8 @@ PLAY RECAP *********************************************************************
 servidor1           : ok=3  changed=2  unreachable=0  failed=0  skipped=0  rescued=0  ignored=0 
 ```
 
-E com isso o servidor1 foi atualizado, para atualizar em mais servidores basta alterar a opção --limit
 
 
 
-
-Lembrando que isso só foi possivel porque foi feita a configuração no ansible.cfg, nos arquivos hosts, a playbook é onde a magica acontece, porém tem que estar configurado dessa forma para executar apenas a playbook sem detalhes adicionais...
+### Lembrando que isso só foi possivel porque foi feita a configuração no ansible.cfg, hosts e no diretório da playbook que é onde a magica acontece, porém tem que estar configurado dessa forma para executar apenas a playbook.
 
