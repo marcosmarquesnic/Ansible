@@ -120,6 +120,7 @@ Em uma playbook, as tarefas são listadas sequencialmente e executadas em ordem,
 Ex, uma playbook configurada para copiar uma pasta para mais de um servidor.
 
 Script1
+
 $ cat playbook/copiar_pasta_rsync.yml
 
 ```
