@@ -72,6 +72,9 @@ ansible.cfg  hosts  playbooks/
 
 **ansible.cfg** - é onde fica a configuração do ansible, ela é feita para reduzir a linha de comando ao usar o ansible, pois quando ela é configurada não utilizamos comandos extensos.
 
+**Atenação as configurações, verifique qual é a forma que está configurada sua private key e altere o remote_user ao seu usuario.
+**
+
 $ cat ansible.cfg
 
 ```
@@ -86,7 +89,7 @@ playbook_dir = ./playbooks
 # Diretório onde ficam os arquivos que serão copiados
 library = ./files  # Onde os arquivos que você quer transferir ficam (se necessário)
 
-remote_user = marcos
+remote_user = USUARIO
 private_key_file = ~/.ssh/id_rsa 
 host_key_checking = False
 
