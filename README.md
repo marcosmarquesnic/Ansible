@@ -72,9 +72,9 @@ ansible.cfg  hosts  playbooks/
 
 **ansible.cfg** - é onde fica a configuração do ansible, ela é feita para reduzir a linha de comando ao usar o ansible, pois quando ela é configurada não utilizamos comandos extensos.
 
+$ cat ansible.cfg
 
 ```
-cat ansible.cfg
 
 [defaults]
 inventory = ./hosts
@@ -100,10 +100,9 @@ become_user = root
 
 Da forma que eu coloco abaixo é da forma que utilizamos os hosts a partir da nossa configuração do ssh em ~/.ssh/config
 
-
-```
 $ cat hosts
 
+```
 [cluster_servers]
 servidor1
 servidor2
@@ -120,10 +119,10 @@ Em uma playbook, as tarefas são listadas sequencialmente e executadas em ordem,
 
 Ex, uma playbook configurada para copiar uma pasta para mais de um servidor.
 
+Script1
+$ cat playbook/copiar_pasta_rsync.yml
 
 ```
-# playbook/copiar_pasta_rsync.yml
-
 # Playbook para copiar um diretório para um destino sem remover arquivos existentes
 #
 # COMO USAR:
