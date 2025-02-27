@@ -176,10 +176,8 @@ O ansible vai executar o comando de mover a pasta no servidores selecionados em 
 
 Outro exemplo, uma playbook simples é a playbook de update dos servidores.
 
-
-```
 $ cat playbooks/update.yml
-
+```
 ---
 - name: Update and upgrade all servers
  hosts: cluster_servers
