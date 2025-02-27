@@ -72,8 +72,7 @@ ansible.cfg  hosts  playbooks/
 
 **ansible.cfg** - é onde fica a configuração do ansible, ela é feita para reduzir a linha de comando ao usar o ansible, pois quando ela é configurada não utilizamos comandos extensos.
 
-**Atenação as configurações, verifique qual é a forma que está configurada sua private key e altere o remote_user ao seu usuario.
-**
+**Atenção as configurações, verifique qual é a forma que está configurada sua private key e altere o remote_user ao seu usuario.**
 
 $ cat ansible.cfg
 
