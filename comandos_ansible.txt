@@ -1,0 +1,11 @@
+# Executar um script pronto via ansible
+$ ansible all -m script -a "caminho/do/script" --become
+
+# Remover um usuario do ansible e o diretório, ex usuario "ubuntu"
+$ ansible all -m user -a "name=ubuntu state=absent remove=True" --become
+
+# Rodar a playbook de copiar pasta
+$ ansible-playbook playbooks/copiar_pasta_rsync.yml --extra-vars "source_dir=files/scripts destination_dir=/opt/scripts" 
+
+# Usuarios logados
+ansible all -m command -a "w"

@@ -1,0 +1,24 @@
+---
+- name: Configure Docker system prune cron job (Weekly)
+  hosts: cluster_servers
+  become: yes
+  tasks:
+    - name: Generate unique hour based on hostname
+      set_fact:
+        prune_hour: "{{ (inventory_hostname | hash('md5') | int(base=16) % 24) }}"
+
+    - name: Generate unique minute based on hostname
+      set_fact:
+        prune_minute: "{{ (inventory_hostname | hash('sha1') | int(base=16) % 60) }}"
+
+    - name: Ensure cron job exists to run docker system prune every Saturday at different times
+      cron:
+        name: "Docker system prune weekly"
+        minute: "{{ prune_minute }}"
+        hour: "{{ prune_hour }}"
+        day: "*"
+        month: "*"
+        weekday: "6"
+        job: "/usr/bin/docker system prune -af >> /var/log/docker-prune.log 2>&1"
+        user: "root"
+
