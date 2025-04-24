@@ -1,0 +1,63 @@
+---
+- name: Update, upgrade and install Docker
+  hosts: cluster_servers
+  become: yes
+  tasks:
+    - name: Run apt update
+      shell: apt update -y
+
+    - name: Run apt upgrade with custom options
+      shell: apt upgrade -o Dpkg::Options::="--force-confold" -y
+
+    - name: Download get-docker.sh script
+      get_url:
+        url: https://get.docker.com
+        dest: /tmp/get-docker.sh
+        mode: '0755'
+
+    - name: Run get-docker.sh with --dry-run to simulate installation
+      shell: sh /tmp/get-docker.sh --dry-run
+      register: docker_installation_dry_run
+      changed_when: False
+      ignore_errors: yes
+
+    - name: Show the simulated installation steps
+      debug:
+        msg: "{{ docker_installation_dry_run.stdout }}"
+    
+    - name: Run get-docker.sh to install Docker (remove --dry-run)
+      shell: sh /tmp/get-docker.sh
+      when: docker_installation_dry_run.rc == 0
+
+    - name: Ensure Docker service is enabled and started
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Create daemon.json
+      copy:
+        dest: /etc/docker/daemon.json
+        content: |
+          {
+            "ipv6": true,
+            "fixed-cidr-v6": "SUA REDE IPV6",
+            "bip": "REDE IPV4",
+            "ip6tables": true,
+            "iptables" : true,
+            "experimental": true,
+            "log-level" : "error",
+            "mtu" : <????>,
+            "dns" : ["<DNS IPV6>", "<DNS QUALQUER UM>"]
+          }
+
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Restart Docker
+
+  handlers:
+    - name: Restart Docker
+      systemd:
+        name: docker
+        state: restarted
