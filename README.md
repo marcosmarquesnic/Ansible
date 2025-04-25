@@ -1,4 +1,4 @@
-# Ansible - Intalação/Configuração/Utilização.
+# Ansible - Instalação/Configuração/Utilização.
 
 O Ansible é uma ferramenta poderosa que permite às equipes de TI automatizar tarefas repetitivas e complexas, como configuração de servidores, implantação de aplicações, cópia de arquivos para diversos servidores e gerenciamento de redes. Ele funciona com varias playbooks que define o estado desejado da infraestrutura e as ações necessárias para atingi-lo.
 
