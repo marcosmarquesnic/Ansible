@@ -1,0 +1,16 @@
+---
+- name: Update and upgrade all servers
+  hosts: cluster_servers
+  become: yes
+  tasks:
+    - name: Hold nomad and consul
+      shell: apt-mark hold nomad consul
+
+    - name: Run apt update
+      shell: apt update -y
+
+    - name: Run apt upgrade with custom options
+      shell: apt upgrade -o Dpkg::Options::="--force-confold" -y
+
+    - name: Unhold nomad and consul
+      shell: apt-mark unhold nomad consul
